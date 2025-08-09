@@ -25,11 +25,11 @@ const Navbar = () => {
                     if (res.data.success) {
                         setIsRecruiterLoggedIn(true)
                     } else {
-                        localStorage.removeItem("recruiterToken")
+                        localStorage.removeItem(companyToken)
                         setIsRecruiterLoggedIn(false)
                     }
                 } catch (err) {
-                    localStorage.removeItem("recruiterToken")
+                    localStorage.removeItem(companyToken)
                     setIsRecruiterLoggedIn(false)
                 }
             }
@@ -79,7 +79,7 @@ const Navbar = () => {
                         <Link to={'/dashboard'}>Recruiter Dashboard</Link>
                         <button
                             onClick={() => {
-                                localStorage.removeItem("recruiterToken")
+                                localStorage.removeItem(companyToken)
                                 setIsRecruiterLoggedIn(false)
                             }}
                             className='bg-red-500 text-white px-4 py-2 rounded-full'
