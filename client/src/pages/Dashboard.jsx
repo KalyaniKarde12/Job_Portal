@@ -54,7 +54,7 @@ const Dashboard = () => {
                   />
                 </div>
 
-                <div className="absolute top-12 right-0 z-20 bg-white shadow-lg rounded-md border w-28 text-sm hidden group-hover:block group-hover:flex flex-col">
+                <div className="absolute top-12 right-0 z-20 bg-white shadow-lg rounded-md border w-28 text-sm hidden flex-col">
                   <ul className="py-2 px-3 text-gray-700">
                     <li
                       className="hover:text-purple-700 cursor-pointer"
