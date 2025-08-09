@@ -1,9 +1,35 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { assets } from '../assets/assets';
+import { AppContext } from '../context/AppContext';
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const { companyData, companyToken, setCompanyData, setCompanyToken } = useContext(AppContext);
+  //Function to logout of compnay
+
+  const logout = () => {
+    setCompanyToken(null);
+    localStorage.removeItem('companyToken')
+    setCompanyData(null)
+    navigate('/')
+  }
+  // Redirect to home if no company token
+  useEffect(() => {
+    if (!companyToken) {
+      navigate('/');
+    }
+  }, [companyToken, navigate]);
+
+  // Don't render dashboard if no token
+  if (!companyToken) {
+    return <div>Loading...</div>;
+  }
+  useEffect(()=>{
+    if(companyData){
+      navigate('/dashboard/manage-jobs')
+    }
+  },[companyData])
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -16,22 +42,32 @@ const Dashboard = () => {
             src={assets.logo}
             alt="logo"
           />
+          {companyData && (
+            <div className="flex items-center gap-3">
+              <p className="hidden sm:block text-gray-600">Welcome, {companyData.name}</p>
+              <div className="relative group">
+                <div className="w-10 h-10 rounded-full border object-cover cursor-pointer overflow-hidden">
+                  <img
+                    src={companyData.image}
+                    alt="Company"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
 
-          <div className="flex items-center gap-3">
-            <p className="hidden sm:block text-gray-600">Welcome, Job Portal</p>
-            <div className="relative group">
-              <img
-                src={assets.company_icon}
-                alt="Company"
-                className="w-10 h-10 rounded-full border object-cover cursor-pointer"
-              />
-              <div className="absolute hidden group-hover:block top-12 right-0 z-20 bg-white shadow-lg rounded-md border w-28 text-sm">
-                <ul className="py-2 px-3 text-gray-700">
-                  <li className="hover:text-purple-700 cursor-pointer">Logout</li>
-                </ul>
+                <div className="absolute top-12 right-0 z-20 bg-white shadow-lg rounded-md border w-28 text-sm hidden group-hover:block group-hover:flex flex-col">
+                  <ul className="py-2 px-3 text-gray-700">
+                    <li
+                      className="hover:text-purple-700 cursor-pointer"
+                      onClick={logout}
+                    >
+                      Logout
+                    </li>
+                  </ul>
+                </div>
               </div>
+
             </div>
-          </div>
+          )}
         </div>
       </div>
 
@@ -40,10 +76,9 @@ const Dashboard = () => {
         {/* Sidebar */}
         <div className="w-56 min-h-screen bg-purple-600 text-white pt-8 px-4 space-y-6">
           <NavLink
-            to="/dashboard/add-job"
+            to="add-job"
             className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2 rounded-md hover:bg-purple-800 transition ${
-                isActive ? 'bg-white text-purple-700 font-semibold' : ''
+              `flex items-center gap-3 px-3 py-2 rounded-md hover:bg-purple-800 transition ${isActive ? 'bg-white text-purple-700 font-semibold' : ''
               }`
             }
           >
@@ -52,10 +87,9 @@ const Dashboard = () => {
           </NavLink>
 
           <NavLink
-            to="/dashboard/manage-jobs"
+            to="manage-jobs"
             className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2 rounded-md hover:bg-purple-800 transition ${
-                isActive ? 'bg-white text-purple-700 font-semibold' : ''
+              `flex items-center gap-3 px-3 py-2 rounded-md hover:bg-purple-800 transition ${isActive ? 'bg-white text-purple-700 font-semibold' : ''
               }`
             }
           >
@@ -64,10 +98,9 @@ const Dashboard = () => {
           </NavLink>
 
           <NavLink
-            to="/dashboard/view-applications"
+            to="view-applications"
             className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2 rounded-md hover:bg-purple-800 transition ${
-                isActive ? 'bg-white text-purple-700 font-semibold' : ''
+              `flex items-center gap-3 px-3 py-2 rounded-md hover:bg-purple-800 transition ${isActive ? 'bg-white text-purple-700 font-semibold' : ''
               }`
             }
           >

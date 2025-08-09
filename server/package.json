@@ -13,6 +13,8 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@clerk/clerk-sdk-node": "^4.13.23",
+    "@clerk/express": "^1.7.15",
     "@sentry/node": "^9.35.0",
     "bcrypt": "^6.0.0",
     "cloudinary": "^2.7.0",
